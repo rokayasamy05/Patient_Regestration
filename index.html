@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل المريض</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div id="patient-search-screen" class="screen active">
+            <div class="header"><h1>البحث عن المريض</h1></div>
+            <div class="search-box">
+                <div class="input-group">
+                    <label>رقم ملف المريض</label>
+                    <input type="number" id="patient-id-search">
+                </div>
+                <button class="btn btn-primary" onclick="searchPatient()">بحث</button>
+            </div>
+            <div id="search-results" class="results-section"></div>
+        </div>
+
+        <div id="registration-screen" class="screen">
+            <div class="header"><h1>تسجيل مريض جديد</h1></div>
+            <button class="btn btn-secondary" onclick="showScreen('patient-search-screen')"><i class="fas fa-arrow-right"></i> رجوع</button>
+            <form id="registration-form">
+                <div class="input-group"><label>رقم الملف</label><input type="number" id="patient-id-input" required></div>
+                <div class="input-group"><label>الاسم بالكامل</label><input type="text" id="full-name" required></div>
+                <div class="input-group"><label>الرقم القومي</label><input type="text" id="national-id" maxlength="14"></div>
+                <div class="input-group"><label>رقم الهاتف</label><input type="tel" id="phone" required></div>
+                <div class="input-group"><label>العنوان</label><input type="text" id="address"></div>
+                <div class="input-group"><label>تاريخ الميلاد</label><input type="date" id="birthday"></div>
+                <button type="submit" class="btn btn-primary">حفظ البيانات والانتقال للحجز</button>
+            </form>
+        </div>
+
+        <div id="patient-details-screen" class="screen">
+            <div class="header"><h1>تفاصيل المريض</h1></div>
+            <button class="btn btn-secondary" onclick="showScreen('patient-search-screen')"><i class="fas fa-arrow-right"></i> رجوع</button>
+            <div class="patient-details-section">
+                <div class="patient-card full-details">
+                    <div class="patient-info">
+                        <h3 id="detail-name"></h3>
+                        <p><strong>رقم الملف:</strong> <span id="detail-patient-id"></span></p>
+                        <p><strong>الرقم القومي:</strong> <span id="detail-national"></span></p>
+                        <p><strong>رقم الهاتف:</strong> <span id="detail-phone"></span></p>
+                        <p><strong>العنوان:</strong> <span id="detail-address"></span></p>
+                        <p><strong>تاريخ الميلاد:</strong> <span id="detail-birthday"></span></p>
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="showScreen('appointment-screen')">حجز موعد جديد</button>
+            </div>
+        </div>
+
+        <div id="appointment-screen" class="screen">
+            <div class="header"><h1>حجز موعد</h1></div>
+            <button class="btn btn-secondary" onclick="goBackFromAppointment()"><i class="fas fa-arrow-right"></i> رجوع</button>
+            <form id="appointment-form">
+                <div class="input-group">
+                    <label>القسم</label>
+                    <select id="department" required onchange="updateDoctors()">
+                        <option value="">اختر القسم</option>
+                        <option value="الباطنية">الباطنية</option>
+                        <option value="الجراحة">الجراحة</option>
+                        <option value="العظام">العظام</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>الطبيب</label>
+                    <select id="doctor" required disabled onchange="updateDates()">
+                        <option value="">اختر الطبيب</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>التاريخ</label>
+                    <select id="appointment-date" required disabled>
+                        <option value="">اختر التاريخ</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">تأكيد الحجز</button>
+            </form>
+            <div id="appointment-success" class="success-section">
+                <div class="success-message">
+                    <h3>تم تأكيد الموعد بنجاح
+                    
+                    </h3>
+                    <button class="btn btn-success" onclick="location.reload()">مريض جديد</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
